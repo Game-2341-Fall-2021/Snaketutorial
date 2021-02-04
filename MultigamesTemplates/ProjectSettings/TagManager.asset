@@ -6,6 +6,8 @@ TagManager:
   tags:
   - snakepiece
   - Pellet
+  - Wall
+  - firstpiece
   layers:
   - Default
   - TransparentFX

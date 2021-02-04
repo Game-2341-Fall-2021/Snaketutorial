@@ -11,12 +11,14 @@ public class Collidercheck : MonoBehaviour
     {
         
     }
+   
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.tag=="snakepiece")
         {
             //end gameprint 
-            print("you lose");
+            //print("you lose");
+            //print(collision.gameObject.name);
             //restart scene
             SceneManager.LoadScene("SnakeTemplate");
         }
@@ -31,6 +33,7 @@ public class Collidercheck : MonoBehaviour
         {
             //end gameprint 
             print("you lose");
+            SceneManager.LoadScene("SnakeTemplate");
         }
 
     }
