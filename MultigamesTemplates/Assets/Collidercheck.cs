@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class Collidercheck : MonoBehaviour
 {
     public Snakecontroller SnakecontrollerScript;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -14,17 +15,17 @@ public class Collidercheck : MonoBehaviour
    
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag=="snakepiece")
+        if(collision.gameObject.tag=="snakepiece"&& SnakecontrollerScript.collisionactive==false)
         {
             //end gameprint 
             //print("you lose");
-            //print(collision.gameObject.name);
+           // print(collision.gameObject.name);
             //restart scene
             SceneManager.LoadScene("SnakeTemplate");
         }
         if (collision.gameObject.tag == "Pellet")
         {
-           
+            
             SnakecontrollerScript.addpiece(collision.gameObject);
            
 
@@ -33,6 +34,7 @@ public class Collidercheck : MonoBehaviour
         {
             //end gameprint 
             print("you lose");
+
             SceneManager.LoadScene("SnakeTemplate");
         }
 

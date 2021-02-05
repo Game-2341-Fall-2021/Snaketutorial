@@ -13,59 +13,34 @@ public class Snakecontroller : MonoBehaviour
     public GameObject snakepiece,lastpiece;
     public GameControls controlscript;
     public int xvector, yvector;
-    float elapsedtime;
+    float elapsedtime,updatetime;
     int score;
     public Text Score;
+    public bool collisionactive;
     // Start is called before the first frame update
     void Start()
     {
+        collisionactive = false;
         snakepieces = new List<GameObject>();
          xvector = -1;
             yvector = 0;
        
         lastpiece = this.gameObject;
         elapsedtime = Time.time;
-        
-        
+        updatetime = Time.time;
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.UpArrow) && direction != 4)// up 
-        {
-          
-            direction = 2;
-            xvector = 0;
-            yvector = 1;
+       
            
-        }
-        if (Input.GetKeyDown(KeyCode.DownArrow) && direction != 2)// down
-        {
-           
-            direction = 4;
-            xvector = 0;
-            yvector = -1;
-          
-        }
-        if (Input.GetKeyDown(KeyCode.LeftArrow) && direction != 1)// left
-        {
-            
-            direction = 3;
-            xvector = 1;
-            yvector = 0;
-           
-        }
-        if (Input.GetKeyDown(KeyCode.RightArrow) && direction != 3)// right
-        {
-           
-            direction = 1;
-            xvector = -1;
-            yvector = 0;
-           
-        }
+        
         
     }
+    
     public void Boundarycheck()
     {
         Vector3 Snakeheadposition = this.gameObject.transform.position;
@@ -92,7 +67,8 @@ public class Snakecontroller : MonoBehaviour
     }
     public void addpiece(GameObject pellet)
     {
-       
+        collisionactive = true;
+        GameObject.Destroy(pellet);
         Vector3 newpieceposition = lastpiece.transform.position;
         newpieceposition.x += xvector * spaceinterval;
         newpieceposition.y += yvector * spaceinterval;
@@ -110,11 +86,12 @@ public class Snakecontroller : MonoBehaviour
             lastpiece = newpiece;
         snakepieces.Add(newpiece);
         controlscript.spawnpellet();
-        GameObject.Destroy(pellet);
+       
         score += 10;
         Score.text = "Score: " + score;
         firstpiecepunt++;
         snakespeed += -(.01f-(firstpiecepunt/40));
+        collisionactive = false;
       //  movesnake();
     }
     public void movesnake()
@@ -133,27 +110,64 @@ public class Snakecontroller : MonoBehaviour
     {
         if(elapsedtime<Time.time-snakespeed)
         {
+            if (Input.GetKey(KeyCode.UpArrow) && direction != 4)// up 
+            {
+
+                direction = 2;
+                xvector = 0;
+                yvector = -1;
+
+            }
+            else if (Input.GetKey(KeyCode.DownArrow) && direction != 2)// down
+            {
+
+                direction = 4;
+                xvector = 0;
+                yvector = 1;
+
+            }
+            else if (Input.GetKey(KeyCode.LeftArrow) && direction != 1)// left
+            {
+
+                direction = 3;
+                xvector = 1;
+                yvector = 0;
+
+
+            }
+            else if (Input.GetKey(KeyCode.RightArrow) && direction != 3)// right
+            {
+
+                direction = 1;
+                xvector = -1;
+                yvector = 0;
+
+            }
             Boundarycheck();
-            previousposition = this.transform.position;
-            if (direction == 1)
-            {
-                transform.Translate(Vector3.right * spaceinterval);
-            }
-            else if (direction == 2)
-            {
-                transform.Translate(Vector3.up * spaceinterval);
-            }
-            else if (direction == 3)
-            {
-                transform.Translate(Vector3.left * spaceinterval);
-            }
-            else if (direction == 4)
-            {
-                transform.Translate(Vector3.down * spaceinterval);
-               
-            }
-            movesnake();
-            elapsedtime = Time.time;
+           
+                previousposition = this.transform.position;
+                if (direction == 1)
+                {
+                    transform.Translate(Vector3.right * spaceinterval);
+                }
+                else if (direction == 2)
+                {
+                    transform.Translate(Vector3.up * spaceinterval);
+                }
+                else if (direction == 3)
+                {
+                    transform.Translate(Vector3.left * spaceinterval);
+                }
+                else if (direction == 4)
+                {
+                    transform.Translate(Vector3.down * spaceinterval);
+
+                }
+                movesnake();
+                elapsedtime = Time.time;
+
+            
+            
         }
        
     }
